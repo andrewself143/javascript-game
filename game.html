@@ -19,97 +19,98 @@ var drawBox = true;
 var gameOver = false;
 
 function trackMouse(evt) {
-  var rect = canvas.getBoundingClientRect();
-  var root = document.documentElement;
-  var mouseX = evt.clientX - rect.left - root.scrollLeft;
-  middlex = mouseX;
-  leftx = middlex-25;
-  rightx = middlex+25;
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	middlex = mouseX;
+	leftx = middlex-25;
+	rightx = middlex+25;
 }
 
 function clicked(evt) {
-  isGameLive = true;
-  gameOver = false;
-  boxY = 0;
-  boxX= Math.floor(Math.random()*(canvas.width-50));
-  score = 0;
+	isGameLive = true;
+	gameOver = false;
+	boxY = 0;
+	boxX= Math.floor(Math.random()*(canvas.width-50));
+	score = 0;
 }
 
 window.onload = function() {
-  canvas = document.getElementById("gameCanvas");
-  canvasContext = canvas.getContext('2d');
+	canvas = document.getElementById("gameCanvas");
+	canvasContext = canvas.getContext('2d');
 
-  boxX = Math.random()*(canvas.width-50);
-  setInterval(callBoth, 30);
+	boxX = Math.random()*(canvas.width-50);
+	setInterval(callBoth, 30);
 
-  canvas.addEventListener('mousemove', trackMouse);
-  canvas.addEventListener('mousedown', clicked)
+	canvas.addEventListener('mousemove', trackMouse);
+	canvas.addEventListener('mousedown', clicked)
 }
 
 function callBoth() {
-  moveEverything();
-  drawEverything();
+	moveEverything();
+	drawEverything();
 }
 
 function moveEverything() {
-  if (isGameLive) {
-    boxY = boxY + 10;
-    if (boxY>canvas.height) {
-      boxY= 0;
-      boxX= Math.floor(Math.random()*(canvas.width-50));
-      drawBox = true;
-    }
-    if (boxY == 450 && middlex > boxX && middlex < (boxX+50) ) {
-      score ++;
-      boxY= 0;
-      boxX= Math.floor(Math.random()*(canvas.width-50));
-    }
-    if (boxY == 550) {
-      gameOver = true;
-    }
-  }
+	if (isGameLive) {
+		boxY = boxY + 10;
+		if (boxY>canvas.height) {
+			boxY= 0;
+			boxX= Math.floor(Math.random()*(canvas.width-50));
+			drawBox = true;
+		}
+		if (boxY == 450 && middlex > boxX && middlex < (boxX+50) ) {
+			score ++;
+			boxY= 0;
+			boxX= Math.floor(Math.random()*(canvas.width-50));
+		}
+		
+		if (boxY == 550) {
+			gameOver = true;
+		}
+	}
 }
 
 function drawEverything() {
 
-  //draw black background
-  canvasContext.fillStyle = 'black';
-  canvasContext.fillRect(0,0,canvas.width,canvas.height);
+	//draw black background
+	canvasContext.fillStyle = 'black';
+	canvasContext.fillRect(0,0,canvas.width,canvas.height);
 
-  if (gameOver) {
-    isGameLive = false;
-    canvasContext.font = "20px Georgia";
-    canvasContext.fillStyle = 'white';
-    canvasContext.fillText("Collect the squares", 330,300);
-    canvasContext.fillText("Click to begin", 350, 325);
-    canvasContext.fillText("Score:", 375, 275);
-    canvasContext.fillText(score, 435,275);
-    return;
-  }
+	if (gameOver) {
+		isGameLive = false;
+		canvasContext.font = "20px Georgia";
+		canvasContext.fillStyle = 'white';
+		canvasContext.fillText("Collect the squares", 330,300);
+		canvasContext.fillText("Click to begin", 350, 325);
+		canvasContext.fillText("Score:", 375, 275);
+		canvasContext.fillText(score, 435,275);
+		return;
+	}
 
-  if (isGameLive) {
-  //draw triangle
-  canvasContext.fillStyle = 'red';
-  canvasContext.beginPath();
-  canvasContext.moveTo(leftx, bottomy);
-  canvasContext.lineTo(middlex, topy);
-  canvasContext.lineTo(rightx, bottomy);
-  canvasContext.fill();
-  if (drawBox) {
-    canvasContext.fillStyle = 'green';
-    canvasContext.fillRect(boxX,boxY,50,50);
-  }
-  canvasContext.fillStyle = 'white';
-  canvasContext.font = "20px Georgia";
-  canvasContext.fillText("Score:", 375, 575);
-  canvasContext.fillText(score, 435,575);
+	if (isGameLive) {
+	//draw triangle
+	canvasContext.fillStyle = 'red';
+	canvasContext.beginPath();
+	canvasContext.moveTo(leftx, bottomy);
+	canvasContext.lineTo(middlex, topy);
+	canvasContext.lineTo(rightx, bottomy);
+	canvasContext.fill();
+	if (drawBox) {
+		canvasContext.fillStyle = 'green';
+		canvasContext.fillRect(boxX,boxY,50,50);
+	}
+	canvasContext.fillStyle = 'white';
+	canvasContext.font = "20px Georgia";
+	canvasContext.fillText("Score:", 375, 575);
+	canvasContext.fillText(score, 435,575);
 
-  } else {
-    canvasContext.font = "20px Georgia";
-    canvasContext.fillStyle = 'white';
-    canvasContext.fillText("Collect the squares", 330, 275);
-    canvasContext.fillText("Click to begin", 350,300);
-  }
+	} else {
+		canvasContext.font = "20px Georgia";
+		canvasContext.fillStyle = 'white';
+		canvasContext.fillText("Collect the squares", 330, 275);
+		canvasContext.fillText("Click to begin", 350,300);
+	}
 
 }
 
